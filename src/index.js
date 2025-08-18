@@ -15,39 +15,27 @@ const rl = readline.createInterface({ input, output })
 // If the user does not want to continue, the application will exit.
 
 function askOperation() {
-    rl.question('Enter the first number ', (fnum) => {
-        rl.question('enter the second ', (lnum) => {
-            rl.question('enter the operator (+,-,*,/)', (op) => {
-                fnum = parseFloat(fnum)
-                lnum = parseFloat(lnum)
+  rl.question("Enter your operation (e.g. 2+3*4): ", (expression) => {
+    try {
+      const result = eval(expression);
+      console.log(`Result: ${result}`);
+    } catch (error) {
+      console.log("Invalid expression");
+    }
 
-                let result = 0
-                if (op === '+') {
-                    result = add(fnum, lnum)
-                } else if (op === '-') {
-                    result = subtract(fnum, lnum)
-                } else if (op === '*') {
-                    result = multiply(fnum, lnum)
-                } else if (op === '/') {
-                    result = divide(fnum, lnum)
-                } else {
-                    console.log("Invalid operator!")
-                }
-
-                console.log(`Result ${result}`)
-                rl.question("Do you want to continue? (y/n): ", (answer) => {
-                    if (answer.toLowerCase() === "y") {
-                        askOperation(); // loop again
-                    } else {
-                        console.log("Goodbye!");
-                        rl.close();
-                    }
-                });
-            })
-        })
-    })
+    rl.question("Do you want to continue? (y/n): ", (answer) => {
+      if (answer.toLowerCase() === "y") {
+        askOperation(); 
+      } else {
+        console.log("Goodbye!");
+        rl.close();
+      }
+    });
+  });
 }
-// askOperation()
+
+askOperation();
+
 
 // TASK 2 (Bouns 50 points):
 // Make a guessing game that asks the user to guess a number between 0 and 50.
