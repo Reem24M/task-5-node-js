@@ -14,11 +14,54 @@ const rl = readline.createInterface({ input, output })
 // The application will then ask the user if they want to continue.
 // If the user wants to continue, the application will repeat the process.
 // If the user does not want to continue, the application will exit.
+function calculate(expression) {
+  const numbers = [];
+  const operators = [];
+
+  let currentNumber = "";
+
+  for (let char of expression) {
+    if ("+-*/".includes(char)) {
+      numbers.push(parseFloat(currentNumber));
+      operators.push(char);
+      currentNumber = "";
+    } else {
+      currentNumber += char;
+    }
+  }
+  numbers.push(parseFloat(currentNumber));
+
+
+  for (let i = 0; i < operators.length; i++) {
+    if (operators[i] === "*" || operators[i] === "/") {
+      const a = numbers[i];
+      const b = numbers[i + 1];
+      const result = operators[i] === "*" ? a * b : a / b;
+
+      numbers.splice(i, 2, result);
+      operators.splice(i, 1);
+      i--; 
+    }
+  }
+
+  
+  for (let i = 0; i < operators.length; i++) {
+    const a = numbers[i];
+    const b = numbers[i + 1];
+    const result = operators[i] === "+" ? a + b : a - b;
+
+    numbers.splice(i, 2, result);
+    operators.splice(i, 1);
+    i--;
+  }
+
+  return numbers[0];
+}
 
 function askOperation() {
   rl.question("Enter your operation (e.g. 2+3*4): ", (expression) => {
     try {
-      const result =math.evaluate(expression);
+      const result = calculate(expression);
       console.log(`Result: ${result}`);
     } catch (error) {
       console.log("Invalid expression");
@@ -26,7 +69,7 @@ function askOperation() {
 
     rl.question("Do you want to continue? (y/n): ", (answer) => {
       if (answer.toLowerCase() === "y") {
-        askOperation(); 
+        askOperation();
       } else {
         console.log("Goodbye!");
         rl.close();
@@ -36,6 +79,7 @@ function askOperation() {
 }
 
 askOperation();
+
 
 
 // TASK 2 (Bouns 50 points):
