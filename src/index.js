@@ -1,5 +1,6 @@
 // 1. Import the math module
 // and use it in the application
+const math=require('mathjs')
 const { add, multiply, divide, subtract, randomTo50, randomInt } = require('../lib/math')
 const readline = require('node:readline');
 const { stdin: input, stdout: output } = require('node:process');
@@ -17,7 +18,7 @@ const rl = readline.createInterface({ input, output })
 function askOperation() {
   rl.question("Enter your operation (e.g. 2+3*4): ", (expression) => {
     try {
-      const result = eval(expression);
+      const result =math.evaluate(expression);
       console.log(`Result: ${result}`);
     } catch (error) {
       console.log("Invalid expression");
